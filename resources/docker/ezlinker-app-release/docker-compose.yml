@@ -6,7 +6,6 @@ version: '3.1'
 # Redis	      192.168.1.102/24
 # EMQX	      192.168.1.103/24
 # EZLinker	  192.168.1.104/24
-# Redis	      192.168.1.105/24
 networks:
   ezlinker_net:
     driver: bridge
@@ -28,9 +27,9 @@ services:
       MYSQL_PASS: 'root'
     # 映射数据卷
     volumes:
-      - ~/docker/mysql8/data:/var/lib/mysql
-      - ~/docker/mysql8/log:/var/log/mysql
-      - ~/docker/mysql8/mysql-files:/var/lib/mysql-files
+      - ~/docker/ezlinker/mysql8/data:/var/lib/mysql
+      - ~/docker/ezlinker/mysql8/log:/var/log/mysql
+      - ~/docker/ezlinker/mysql8/mysql-files:/var/lib/mysql-files
     restart: always
     # 对外断口
     ports:
@@ -59,8 +58,8 @@ services:
     image: mongo
     container_name: ezlinker_mongo
     volumes:
-      - ~/docker/mongodb/db:/data/db
-      - ~/docker/mongodb/configdb/:/data/configdb
+      - ~/docker/ezlinker/mongodb/db:/data/db
+      - ~/docker/ezlinker/mongodb/configdb/:/data/configdb
     ports:
       - "57017:27017"
     restart: always
@@ -78,8 +77,33 @@ services:
     ports:
       - "56379:6379"
     volumes:
-      - ~/docker/redis/data:/data
+      - ~/docker/ezlinker/redis/data:/data
     restart: always
     networks:
       ezlinker_net:
         ipv4_address: 192.168.1.102
+  # EMQX
+  ezemqx:
+    image: ezemqx
+    container_name: ezlinker_emqx
+    command: /EZLINKER/emqx-4.0-alpine/emqx/bin/emqx start
+    ports:
+      - "51803:18083"
+      - "51883:1883"
+    restart: always
+    networks:
+      ezlinker_net:
+        ipv4_address: 192.168.1.103
+
+  # Nginx
+  nginx:
+    image: nginx
+    container_name: ezlinker_nginx
+    command: nginx
+    ports:
+      - "52580:80"
+      - "52443:443"
+    restart: always
+    networks:
+      ezlinker_net:
+        ipv4_address: 192.168.1.104

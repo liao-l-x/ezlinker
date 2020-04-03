@@ -53,5 +53,4 @@ RUN apk add git \
 ADD ./emqx-4.0-alpine.zip /EZLINKER/
 RUN unzip /EZLINKER/emqx-4.0-alpine.zip -d /EZLINKER/
 RUN chmod -R 777 /EZLINKER/emqx-4.0-alpine/emqx
-RUN /EZLINKER/emqx-4.0-alpine/emqx/bin/emqx start
 EXPOSE 1883 1884 18083
