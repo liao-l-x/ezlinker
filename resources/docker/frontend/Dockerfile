@@ -10,3 +10,4 @@ RUN unzip /EZLINKER/index.zip -d /EZLINKER/
 RUN chmod -R 777 /EZLINKER/
 RUN mkdir /usr/local/nginx/
 EXPOSE 80
+ENTRYPOINT ["nginx"]

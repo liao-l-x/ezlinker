@@ -83,8 +83,8 @@ services:
       ezlinker_net:
         ipv4_address: 192.168.1.102
   # EMQX
-  ezemqx:
-    image: ezemqx
+  ezlinker-emqx:
+    image: ezlinker/emqx
     container_name: ezlinker_emqx
     command: /EZLINKER/emqx-4.0-alpine/emqx/bin/emqx start
     ports:
@@ -96,10 +96,9 @@ services:
         ipv4_address: 192.168.1.103
 
   # Nginx
-  nginx:
-    image: nginx
+  ezlinker-nginx:
+    image: ezlinker/nginx
     container_name: ezlinker_nginx
-    command: nginx
     ports:
       - "52580:80"
       - "52443:443"
