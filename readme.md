@@ -2,9 +2,9 @@
 ---
 [![l1PIts.md.png](resources/static/banner.gif)](resources/static/banner.gif)
 ## 当前进度
-0I============>30%=========================I100
+0I===========================60%=============I100
 > 目前还在填坑,问题很大.不建议尝试.
-> 如果有能力开发，可联系QQ：751957846;或者QQ群:475512169
+> 如果有能力开发，可联系QQ：751957846;或者QQ群:475512169.
 
 ## 技术栈
 1. 主业务系统:Springboot+Mybatisplus+Mongodb+redis
@@ -19,17 +19,22 @@
 ## 前端地址
 https://github.com/ssloth/ezlinker-frontend.git
 > 前端项目基于Ant Design.
-## POSTMAN接口地址
-https://www.getpostman.com/collections/4ba4516ff3809712513d
-> 打开postman，然后导入这个地址即可.
+
 ## 项目文档
-https://wwhai.gitbook.io/ezlinker/
+https://www.ezlinker.cn
 > 项目详细文档,包含开发,运行.
 ## EMQX 相关
 EZLinker的核心业务:MQTT服务,是基于EMQX构建.为了适应自己的业务场景,对EMQX做了部分二次开发,同时做了部分适配插件.
-1. EZLinker团队维护的EMQX:https://gitee.com/lagrangewang/emqx
-2. EZLinker的EMQX发行版地址:https://gitee.com/lagrangewang/emqx-rel
-3. EZLinker核心插件:https://gitee.com/lagrangewang/ezlinker_core_plugin
+1. EZLinker团队维护的EMQX:https://gitee.com/wwhai/emqx
+2. EZLinker的EMQX发行版地址:https://gitee.com/wwhai/emqx-rel
+3. EZLinker核心插件:https://gitee.com/wwhai/ezlinker_core_plugin
+4. EZLinker客户上下线插件:https://gitee.com/wwhai/ezlinker_advisory_plugin.git
+## Docker
+```shell script
+ezlinker-emqx:docker pull 18059150204/emqx
+ezlinker:docker pull 18059150204/ezlinker
+```
+
 ## 其他
 下面是一些辅助性的工具,还有EZLinker团队提供的常见的平台的SDK.
 - COAP协议测试工具:https://github.com/wwhai/EZCoapTester.git
@@ -80,8 +85,7 @@ CREATE TABLE `表名` (
 
 > maven项目的基本姿势
 ## QQ群\WeChat
-[![l1PIts.md.png](resources/static/qq.png)](resources/static/banner.gif)
-[![l1PIts.md.png](resources/static/wx.png)](resources/static/banner.gif)
+[![l1PIts.md.png](resources/static/contract.png)](resources/static/contract.gif)
 > 加微信请注明来自github
 >
 ## 协议
