@@ -23,7 +23,7 @@ public class DisconnectedMessage extends EMQWebHookMessage {
      * 客户端ID
      */
     @NotEmpty(message = "client_id can't null")
-    private String client_id;
+    private String clientId;
     /**
      * MQTT Username
      */

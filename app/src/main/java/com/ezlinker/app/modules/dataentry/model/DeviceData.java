@@ -21,7 +21,7 @@ public class DeviceData {
 
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-mm-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-mm-dd HH:mm:ss")
-    private Date createTime;
+    private Date createTime = new Date();
 
     /**
      * 数据

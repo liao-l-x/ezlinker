@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 
 /**
  * @program: ezlinker
@@ -26,7 +25,7 @@ public class ConnectedMessage extends EMQWebHookMessage{
      * 客户端ID
      */
     @NotEmpty(message = "client_id can't null")
-    private String client_id;
+    private String clientId;
     /**
      * MQTT Username
      */
@@ -34,16 +33,7 @@ public class ConnectedMessage extends EMQWebHookMessage{
     /**
      * IP地址
      */
-    private String ipaddress;
+    private String ip;
 
-    /**
-     * 协议版本
-     */
-    private Integer proto_ver;
-
-    /**
-     * 连接时间
-     */
-    private Date connected_at;
 
 }
