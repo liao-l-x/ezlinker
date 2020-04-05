@@ -61,5 +61,10 @@ public class Module extends XEntity {
      * token
      */
     private String token;
+    /**
+     * 图标
+     */
+    private String icon;
+
 
 }

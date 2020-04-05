@@ -1,14 +1,18 @@
 package com.ezlinker.app.modules.module.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ezlinker.app.common.exception.BizException;
 import com.ezlinker.app.common.exception.XException;
 import com.ezlinker.app.common.exchange.R;
 import com.ezlinker.app.common.web.CurdController;
+import com.ezlinker.app.modules.dataentry.model.DeviceData;
+import com.ezlinker.app.modules.dataentry.service.DeviceDataService;
 import com.ezlinker.app.modules.module.model.Module;
 import com.ezlinker.app.modules.module.service.IModuleService;
 import com.ezlinker.app.modules.module.service.ModuleDataService;
 import com.ezlinker.app.modules.module.service.ModuleLogService;
+import com.ezlinker.app.modules.systemconfig.service.IModuleTypeConfigService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * <p>
@@ -40,10 +42,15 @@ public class ModuleController extends CurdController<Module> {
     @Resource
     ModuleDataService moduleDataService;
 
+    @Resource
+    DeviceDataService deviceDataService;
+
+    @Resource
+    IModuleTypeConfigService iModuleTypeConfigService;
+
     public ModuleController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
-
 
 
     /**
@@ -61,48 +68,7 @@ public class ModuleController extends CurdController<Module> {
      */
     @GetMapping("/types")
     public R getType() {
-        HashMap<String, Object> data0 = new HashMap<>();
-        data0.put("label", "自定义");
-        data0.put("value", 0);
-
-        HashMap<String, Object> data1 = new HashMap<>();
-        data1.put("label", "按钮");
-        data1.put("value", 1);
-
-        HashMap<String, Object> data2 = new HashMap<>();
-        data2.put("label", "按钮组");
-        data2.put("value", 2);
-
-        HashMap<String, Object> data3 = new HashMap<>();
-        data3.put("label", "开关");
-        data3.put("value", 3);
-
-        HashMap<String, Object> data4 = new HashMap<>();
-        data4.put("label", "开关组");
-        data4.put("value", 4);
-
-
-        HashMap<String, Object> data5 = new HashMap<>();
-        data5.put("label", "进度条");
-        data5.put("value", 5);
-
-        HashMap<String, Object> data6 = new HashMap<>();
-        data6.put("label", "图表");
-        data6.put("value", 6);
-
-        HashMap<String, Object> data7 = new HashMap<>();
-        data7.put("label", "视频设备");
-        data7.put("value", 7);
-
-        List<HashMap<String, Object>> list = new ArrayList<>();
-        list.add(data0);
-        list.add(data1);
-        list.add(data2);
-        list.add(data3);
-        list.add(data4);
-        list.add(data5);
-        list.add(data6);
-        return data(list);
+        return data(iModuleTypeConfigService.list());
     }
 
 
@@ -156,5 +122,34 @@ public class ModuleController extends CurdController<Module> {
         return data(moduleDataService.queryForPage(moduleId, pageable));
     }
 
-}
 
+    /**
+     * 获取状态
+     * 设备数据表：device_data_{projectId}_{deviceId}
+     *
+     * @return
+     * @throws XException
+     */
+    @GetMapping("/{moduleIds}/{projectId}/status")
+    public R status(@PathVariable Long[] moduleIds, @PathVariable Long projectId) throws XException {
+        HashMap<Long, HashMap<String, Object>> map = new HashMap<>();
+        for (Long id : moduleIds) {
+
+            Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "_id"));
+            IPage<DeviceData> page = deviceDataService.queryForPage(projectId, id, pageable);
+            if (page.getRecords().size() > 0) {
+                DeviceData deviceData = deviceDataService.queryForPage(projectId, id, pageable).getRecords().get(0);
+                HashMap<String, Object> status = new HashMap<>();
+                status.put("status", deviceData.getData());
+                status.put("createTime", deviceData.getCreateTime());
+                map.put(id, status);
+            } else {
+                map.put(id, null);
+
+            }
+
+        }
+        return data(map);
+    }
+
+}

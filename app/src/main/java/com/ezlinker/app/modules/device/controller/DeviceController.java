@@ -192,6 +192,7 @@ public class DeviceController extends CurdController<Device> {
         String clientId = SecureUtil.md5(username);
         String password = SecureUtil.md5(clientId);
         form.setParameters(product.getParameters())
+                .setProtocol(product.getProtocol())
                 .setUsername(username)
                 .setPassword(password)
                 .setClientId(clientId)
@@ -230,6 +231,7 @@ public class DeviceController extends CurdController<Device> {
             // token里面包含了模块的字段名,这样在数据入口处可以进行过滤。
             String token = ModuleTokenUtil.token(clientId + "::" + stringBuilder);
             newModule.setToken(token);
+            newModule.setIcon(moduleTemplate.getIcon());
             // 如果是流媒体设备 需要在这里做一些操作
             // 1 可能在这里向阿里云之类的三方厂家申请Key
             // 2 然后把Key保存倒数据库，作为视频流设备的推流入口
@@ -250,7 +252,7 @@ public class DeviceController extends CurdController<Device> {
         /**
          * 给MQTT协议的[设备]安装口令
          */
-        if (form.getProtocol() == Device.MQTT) {
+        if (product.getProtocol() == Device.MQTT) {
 
             // 数据上行
             MqttTopic s2cTopic = new MqttTopic();

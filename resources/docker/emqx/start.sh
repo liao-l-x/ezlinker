@@ -1,3 +1,4 @@
 #!/bin/sh
-/emqx/bin/emqx start > /log
+epmd -daemon
+/emqx/bin/emqx start >> /emqx.log
 tail -f /dev/null
