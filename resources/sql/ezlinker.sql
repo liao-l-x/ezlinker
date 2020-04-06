@@ -677,13 +677,13 @@ DROP TABLE IF EXISTS `ez_stream_integration`;
 CREATE TABLE `ez_stream_integration`  (
   `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
   `module_id` int(0) UNSIGNED NOT NULL COMMENT '设备ID',
-  `token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '令牌',
-  `secret` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '密钥',
+  `token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '令牌',
+  `secret` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '密钥',
   `record_version` int(0) NOT NULL DEFAULT 0 COMMENT '记录版本',
   `x` tinyint(0) UNSIGNED NOT NULL DEFAULT 0 COMMENT '删除',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '流媒体推送密钥' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '流媒体推送密钥' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for ez_tag
