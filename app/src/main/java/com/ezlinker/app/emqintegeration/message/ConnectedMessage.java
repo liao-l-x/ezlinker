@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @program: ezlinker
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @EqualsAndHashCode(callSuper = false)
 
-public class ConnectedMessage extends EMQWebHookMessage{
+public class ConnectedMessage implements Serializable {
 
     /**
      * 触发的动作
@@ -24,7 +25,7 @@ public class ConnectedMessage extends EMQWebHookMessage{
     /**
      * 客户端ID
      */
-    @NotEmpty(message = "client_id can't null")
+    @NotEmpty(message = "clientId can't null")
     private String clientId;
     /**
      * MQTT Username
