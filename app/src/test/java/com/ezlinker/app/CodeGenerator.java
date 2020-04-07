@@ -19,11 +19,11 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
     private static String AUTHOR = "wangwenhai";
-    private static String IP = "localhost";
-    private static String PORT = "3308";
+    private static String IP = "112.74.44.130";
+    private static String PORT = "3306";
     private static String DB_NAME = "ezlinker";
-    private static String USER = "root";
-    private static String PASSWORD = "root";
+    private static String USER = "easylinker";
+    private static String PASSWORD = "123456";
     private static String PROJECT = "app";
     private static String TABLE_PREFIX = "ez_";
 

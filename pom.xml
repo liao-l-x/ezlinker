@@ -25,6 +25,7 @@
         <module>app</module>
         <module>javasdk</module>
         <module>otpsupport</module>
+        <module>cloudfunction</module>
 
     </modules>
 
