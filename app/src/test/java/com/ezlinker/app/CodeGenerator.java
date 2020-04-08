@@ -57,7 +57,7 @@ public class CodeGenerator {
         gc.setFileOverride(true);
         gc.setEnableCache(false);
         gc.setBaseResultMap(true);
-        gc.setBaseColumnList(true);
+        //gc.setBaseColumnList(true);
         gc.setAuthor(AUTHOR);
         gc.setOpen(false);
 

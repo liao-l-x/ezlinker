@@ -69,6 +69,7 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                 dataArea0.setDescription("开关状态");
                 dataAreas.add(dataArea0);
                 moduleTemplate.setDataAreas(dataAreas);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.SWITCH);
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             case ModuleTemplate.ModuleType.SWITCH_GROUP:
@@ -82,6 +83,8 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                     dataAreas.add(dataArea1);
                 }
                 moduleTemplate.setDataAreas(dataAreas);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.SWITCH_GROUP);
+
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             case ModuleTemplate.ModuleType.PROGRESS_BAR:
@@ -107,6 +110,8 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                 dataAreas.add(value);
                 dataAreas.add(r);
                 moduleTemplate.setDataAreas(dataAreas);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.PROGRESS_BAR);
+
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             //按钮只有一个字段
@@ -119,6 +124,8 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                 buttonArea1.setDescription("按钮事件");
                 dataAreas.add(buttonArea1);
                 moduleTemplate.setDataAreas(dataAreas);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.BUTTON);
+
                 iModuleTemplateService.save(moduleTemplate);
 
                 break;
@@ -134,6 +141,8 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                     dataAreas.add(temp);
                 }
                 moduleTemplate.setDataAreas(dataAreas);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.BUTTON_GROUP);
+
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             // 数据体类型
@@ -145,6 +154,7 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
                 for (int i = 0; i < moduleTemplate.getDataAreas().size(); i++) {
                     checkDataAreaFormat(moduleTemplate.getDataAreas().get(i));
                 }
+                moduleTemplate.setIcon(ModuleTemplate.Icon.DATA_ENTITY);
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             // 流媒体设备不需要有数据字段,但是需要推流密钥
@@ -152,6 +162,7 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
             // 在生产设备的时候需要执行这个步骤，设计的时候不用
             case ModuleTemplate.ModuleType.STREAM:
                 moduleTemplate.setDataAreas(null);
+                moduleTemplate.setIcon(ModuleTemplate.Icon.STREAM);
                 iModuleTemplateService.save(moduleTemplate);
                 break;
             default:
@@ -163,7 +174,6 @@ public class ModuleTemplateController extends CurdController<ModuleTemplate> {
 
 
     /**
-     *
      * @param defaultValue
      * @throws BadRequestException
      */
