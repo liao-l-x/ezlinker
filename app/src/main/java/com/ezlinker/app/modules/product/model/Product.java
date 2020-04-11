@@ -89,6 +89,6 @@ public class Product extends XEntity {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private JSONObject layout;
-    @NotEmpty(message = "协议类型不能为空值")
+    @NotNull(message = "协议类型不能为空值")
     private Integer protocol;
 }
