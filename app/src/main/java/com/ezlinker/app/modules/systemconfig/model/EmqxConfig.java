@@ -1,5 +1,6 @@
 package com.ezlinker.app.modules.systemconfig.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ezlinker.app.common.model.XEntity;
 import lombok.Data;
@@ -74,5 +75,15 @@ public class EmqxConfig extends XEntity {
      * 状态
      */
     private Integer state = 0;
+    /**
+     * 历史运行状态
+     */
+    @TableField(exist = false)
+    private Object historyRunningState;
+    /**
+     * 当前状态
+     */
+    @TableField(exist = false)
+    private Object currentRunningState;
 
 }

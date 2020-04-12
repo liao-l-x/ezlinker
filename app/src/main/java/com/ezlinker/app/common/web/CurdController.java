@@ -109,11 +109,12 @@ public abstract class CurdController<T> extends XController {
                      Integer size) {
         return success();
     }
+
     /**
      * @return
      */
     @GetMapping("/all")
-    protected R all() {
+    protected R all() throws Exception {
         return success();
     }
 
