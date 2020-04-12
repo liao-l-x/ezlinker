@@ -23,6 +23,10 @@ public class CloudFunction extends XEntity {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 创建人
+     */
+    private Long userId;
+    /**
      * UI显示的标签
      */
     private String label;

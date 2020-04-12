@@ -96,6 +96,7 @@ public abstract class CurdController<T> extends XController {
                      Integer size) {
         return success();
     }
+
     /**
      * 分页不带条件查询
      *
@@ -108,9 +109,7 @@ public abstract class CurdController<T> extends XController {
                      Integer size) {
         return success();
     }
-
     /**
-     *
      * @return
      */
     @GetMapping("/all")
@@ -135,12 +134,13 @@ public abstract class CurdController<T> extends XController {
 
     /**
      * 带消息返回空
+     *
      * @param entity
      * @param message
      * @param i18nMessage
      * @throws BadRequestException
      */
-    protected final void checkModelNull(XEntity entity,String message,String i18nMessage) throws BadRequestException {
+    protected final void checkModelNull(XEntity entity, String message, String i18nMessage) throws BadRequestException {
 
         if (entity == null)
             throw new BadRequestException("资源不存在", "Resource not exists");

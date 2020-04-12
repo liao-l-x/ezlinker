@@ -8,6 +8,7 @@
         <result column="record_version" property="recordVersion"/>
         <result column="x" property="x"/>
         <result column="create_time" property="createTime"/>
+        <result column="userId" property="userId"/>
         <result column="label" property="label"/>
         <result column="enable" property="enable"/>
         <result column="description" property="description"/>
