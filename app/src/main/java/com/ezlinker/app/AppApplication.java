@@ -7,12 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author wangwenhai
  */
 
-
+@EnableScheduling
 @MapperScan(basePackages = "com.ezlinker.app.modules.*.mapper")
 @SpringBootApplication(scanBasePackages = {"com.ezlinker.*"})
 @EnableConfigurationProperties({AliyunMailProperties.class})

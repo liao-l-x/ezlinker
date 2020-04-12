@@ -17,7 +17,7 @@ import java.util.List;
  * @author wangwenhai
  * @date 2020/2/16
  * File description: 设备数据service
- * 备注：Mongodb集合是动态生成的，规则：DEVICE_DATA_{projectId}_{deviceId}
+ * 备注：Mongodb集合是动态生成的，规则：device_data_{projectId}_{deviceId}
  */
 @Service
 public class DeviceDataService {
@@ -25,7 +25,7 @@ public class DeviceDataService {
     MongoTemplate mongoTemplate;
 
     public void save(Long projectId, Long deviceId, DeviceData entity) {
-        mongoTemplate.insert(entity, "DEVICE_DATA_" + projectId + "_" + deviceId);
+        mongoTemplate.insert(entity, "device_data_" + projectId + "_" + deviceId);
     }
 
     public IPage<DeviceData> queryForPage(Long projectId, Long deviceId, org.springframework.data.domain.Pageable pageable) {
@@ -33,10 +33,10 @@ public class DeviceDataService {
         Criteria criteria = Criteria.where("deviceId").is(deviceId);
         query.fields().include("createTime").include("data");
         query.addCriteria(criteria);
-        query.with(Sort.by(Sort.Direction.DESC, "id"));
+        query.with(Sort.by(Sort.Direction.DESC, "_id"));
         query.with(pageable);
-        List<DeviceData> list = mongoTemplate.find(query, DeviceData.class, "DEVICE_DATA_" + projectId + "_" + deviceId);
-        long total = mongoTemplate.count(query, "DEVICE_DATA_" + projectId + "_" + deviceId);
+        List<DeviceData> list = mongoTemplate.find(query, DeviceData.class, "device_data_" + projectId + "_" + deviceId);
+        long total = mongoTemplate.count(query, "device_data_" + projectId + "_" + deviceId);
 
         return new XPage<>(list, total, OrderItem.descs("_id"), pageable);
     }
