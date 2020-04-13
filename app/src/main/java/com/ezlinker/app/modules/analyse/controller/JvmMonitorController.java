@@ -13,39 +13,47 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 统计操作系统 硬件信息
- */
 @RestController
-@RequestMapping("/monitor/os")
-public class OSMonitorController extends XController {
-    public OSMonitorController(HttpServletRequest httpServletRequest) {
+@RequestMapping("/monitor/jvm")
+public class JvmMonitorController extends XController {
+    public JvmMonitorController(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
     }
 
-
+    /**
+     * 当前运行参数
+     *
+     * @return
+     */
     @GetMapping("/currentState")
-    public R currentOSRunningState() {
-        return data(OSMonitor.getOSInfo());
+    public R running() {
+        return data(OSMonitor.getJvmRunningState());
     }
 
-
+    /**
+     * 24小时的数据
+     *
+     * @return
+     */
     @GetMapping("/running24h")
-    public R osRunning24h() {
+    public R jvmRunning24h() {
         // 时间轴
         List<String> timeList = new ArrayList<>();
-        // 数据轴
-        List<Double> physicalFree = new ArrayList<>();
-        List<Double> physicalTotal = new ArrayList<>();
-        List<Double> physicalUse = new ArrayList<>();
+
+        List<Double> vmUse = new ArrayList<>();
+
+        List<Double> vmMax = new ArrayList<>();
+        List<Double> vmFree = new ArrayList<>();
+        List<Double> vmTotal = new ArrayList<>();
+
         //
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("time", timeList);
-        result.put("physicalFree", physicalFree);
-        result.put("physicalTotal", physicalTotal);
-        result.put("physicalUse", physicalUse);
+        result.put("jvmUse", vmUse);
+        result.put("jvmMax", vmMax);
+        result.put("jvmFree", vmFree);
+        result.put("jvmTotal", vmTotal);
         return data(result);
     }
-
 
 }
