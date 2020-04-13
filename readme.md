@@ -1,6 +1,6 @@
 # EZLinker:轻量级物联网应用
 ---
-[![l1PIts.md.png](resources/static/banner.gif)](resources/static/banner.gif)
+[![Banner](resources/static/banner.gif)](resources/static/banner.gif)
 ## 当前进度
 0I===========================60%=============I100
 > 目前还在填坑,问题很大.不建议尝试.
@@ -21,7 +21,7 @@ https://github.com/ssloth/ezlinker-frontend.git
 > 前端项目基于Ant Design.
 
 ## 项目文档
-https://www.ezlinker.cn
+http://www.ezlinker.cn
 > 项目详细文档,包含开发,运行.
 ## EMQX 相关
 EZLinker的核心业务:MQTT服务,是基于EMQX构建.为了适应自己的业务场景,对EMQX做了部分二次开发,同时做了部分适配插件.
@@ -40,43 +40,6 @@ ezlinker:docker pull 18059150204/ezlinker
 - COAP协议测试工具:https://github.com/wwhai/EZCoapTester.git
 - Arduino SDK :https://github.com/wwhai/ezlinker_arduino_sdk.git
 - ESP8266简单Demo:https://github.com/wwhai/ESP8266_Simple_cli.git
-## 一些开发规范
-
-### 包名规范
-- controller:WEB控制器;
-- model:数据模型;
-- mapper:MyBatis映射;
-- service:Service层;
-- pojo:普通的Java类,一般起辅助作用;
-- form:前端的Form表单接收;
-- utils:模块私有工具代码;
-- resource:模块私有资源文件,例如配置.
-
-### 内置基本类
-- CurdController:有统一CURD业务场景时继承;
-- XController:简单接口继承;
-### 基本通用查询接口
-1. 带查询条件分页:`<T>page(current,size,Query)`;
-2. 无查询条件分页:`<T>list(current,size)`;
-3. 不分页查询:`<T>list()`;
-> 以上常见的接口都用在查询方面.
-
-### 表结构
-基础表结构如下:
-```sql
-CREATE TABLE `表名` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
-  `record_version` int NOT NULL DEFAULT '0' COMMENT '记录版本',
-  `x` tinyint(1) unsigned zerofill NOT NULL COMMENT '是否删除',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='产品（设备的抽象模板）';
-```
-### 表名规范
-1. 配置表全部`config`结尾.
-2. 表名全部是常见名词的单数形式,意义要明确,不可出现`do object my`等模棱两可的名称.
-3. 表名用名词单数形式,比如User,Student;
-4. 中间关系表用 `relation`开头,后面跟关联的主表,从表,比如用户和博客的关系表:`relation_user_blog`,统一放进relation模块.
 
 # 运行步骤
 1. git 或者IDE直接导入代码；
@@ -85,7 +48,7 @@ CREATE TABLE `表名` (
 
 > maven项目的基本姿势
 ## QQ群\WeChat
-[![l1PIts.md.png](resources/static/contract.png)](resources/static/contract.gif)
+[![QQ](resources/static/contract.png)](resources/static/contract.gif)
 > 加微信请注明来自github
 >
 ## 协议
