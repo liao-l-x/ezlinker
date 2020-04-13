@@ -85,10 +85,10 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
                 load1.add(info.getLoad1());
                 load5.add(info.getLoad5());
                 load15.add(info.getLoad15());
-                processAvailable.add(info.getProcess_available());
-                processUsed.add(info.getProcess_used());
-                memoryTotal.add(info.getMemory_total());
-                memoryUsed.add(info.getMemory_used());
+                processAvailable.add(info.getProcessAvailable());
+                processUsed.add(info.getProcessUsed());
+                memoryTotal.add(info.getMemoryTotal());
+                memoryUsed.add(info.getMemoryUsed());
                 createTime.add(info.getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             }
             historyRunningState.put("node", config.getNodeName());
