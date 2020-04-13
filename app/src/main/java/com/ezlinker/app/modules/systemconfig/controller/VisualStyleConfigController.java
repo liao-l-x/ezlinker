@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * 可视化视觉展示效果 前端控制器
+ * 可视化视觉展示效果
  * </p>
  *
  * @author wangwenhai

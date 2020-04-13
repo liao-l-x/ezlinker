@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- * 云函数 前端控制器
+ * 云函数
  * </p>
  *
  * @author wangwenhai

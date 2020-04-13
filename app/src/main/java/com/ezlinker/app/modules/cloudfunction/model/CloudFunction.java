@@ -21,7 +21,10 @@ import lombok.experimental.Accessors;
 public class CloudFunction extends XEntity {
 
     private static final long serialVersionUID = 1L;
-
+    /**
+     *
+     */
+    private Long cloudAppId;
     /**
      * 创建人
      */
