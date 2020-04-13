@@ -2,7 +2,7 @@ package com.ezlinker.app.modules.systemcronjob;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ezlinker.app.common.exception.BizException;
-import com.ezlinker.app.common.utils.SystemPropertiesUtil;
+import com.ezlinker.app.common.utils.OSMonitor;
 import com.ezlinker.app.emqintegeration.monitor.EMQMonitorV4;
 import com.ezlinker.app.modules.systemconfig.model.EmqxConfig;
 import com.ezlinker.app.modules.systemconfig.service.IEmqxConfigService;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,24 +32,68 @@ public class CronJobRunner {
     IEmqxConfigService iEmqxConfigService;
 
     /**
-     * 定时在数据库插入系统内存状态
+     * 定时在数据库插入系统OS状态
+     * 5分钟一次
+     */
+    @Scheduled(cron = "0 0/5 * * * ?")
+    @Async
+
+    public void cronOSRunningData() {
+        logger.info("Start cron OS running data");
+        Map<String, Object> data = new HashMap<>();
+
+        Map<String, Object> running = OSMonitor.getOSInfo();
+        data.put("physicalFree", running.get("physicalFree"));
+        data.put("physicalTotal", running.get("physicalTotal"));
+        data.put("physicalUse", running.get("physicalUse"));
+        data.put("createTime", LocalDateTime.now());
+
+        mongoTemplate.insert(data, LogTableName.SYSTEM_OS_STATE);
+        logger.info("Cron OS running data finished");
+    }
+
+    /**
+     * 定时在数据库插入JVM状态
+     * 2分钟一次
+     */
+    @Scheduled(cron = "0 0/2 * * * ?")
+    @Async
+
+    public void cronJVMRunningData() {
+        logger.info("Start cron JVM running data");
+        Map<String, Object> running = OSMonitor.getJvmRunningState();
+        Map<String, Object> data = new HashMap<>();
+        data.put("jvmUse", running.get("jvmUse"));
+        data.put("jvmFree", running.get("jvmFree"));
+        data.put("jvmTotal", running.get("jvmTotal"));
+        data.put("jvmMax", running.get("jvmMax"));
+        data.put("createTime", LocalDateTime.now());
+
+        mongoTemplate.insert(data, LogTableName.JVM_STATE);
+        logger.info("Cron JVM running data finished");
+    }
+
+    /**
+     * 定时在数据库插入网卡状态
+     * 1分钟一次
      */
     @Scheduled(cron = "0 0/1 * * * ?")
-    public void cronServerRunningData() {
-        logger.info("Start cron system running data");
-        Map<String, Object> running = SystemPropertiesUtil.getRunning();
-        mongoTemplate.insert(running, LogTableName.SYSTEM_RUNNING_LOG);
-        logger.info("Cron system running data finished");
+    @Async
+
+    public void cronNetworkRunningData() {
+        logger.info("Start cron OS running data");
+        Map<String, Object> running = OSMonitor.getNetworkState();
+        mongoTemplate.insert(running, LogTableName.SYSTEM_NETWORK_STATE);
+        logger.info("Cron OS running data finished");
     }
 
     /**
      * 数据库定时插入EMQ节点的运行数据
-     * 目前是每个节点每一分钟一条
+     * 一分钟一条
      */
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/2 * * * ?")
     @Async
-
     public void cronEmqNodeRunningData() {
         logger.info("Start cron EMQX node running data");
         List<EmqxConfig> emqxConfigList = iEmqxConfigService.list();
@@ -57,8 +102,17 @@ public class CronJobRunner {
             try {
                 runningState = EMQMonitorV4.getNodeInfo(config);
                 if (runningState != null) {
-                    runningState.put("createTime", LocalDateTime.now());
-                    mongoTemplate.insert(runningState, LogTableName.EMQX_RUNNING_LOG + "_" + config.getNodeName());
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("node", config.getNodeName());
+                    data.put("load1", runningState.get("load1"));
+                    data.put("load5", runningState.get("load5"));
+                    data.put("load15", runningState.get("load15"));
+                    data.put("processAvailable", runningState.get("processAvailable"));
+                    data.put("processUsed", runningState.get("processUsed"));
+                    data.put("memoryTotal", runningState.get("memoryTotal"));
+                    data.put("memoryUsed", runningState.get("memoryUsed"));
+                    data.put("createTime", LocalDateTime.now());
+                    mongoTemplate.insert(data, LogTableName.EMQX_RUNNING_LOG + "_" + config.getNodeName());
                 }
             } catch (BizException e) {
                 SystemLog systemLog = new SystemLog();
@@ -83,9 +137,13 @@ public class CronJobRunner {
     @Async
     public void cronClearLog() {
         logger.info("Start clear system log");
+
         mongoTemplate.dropCollection(LogTableName.EMQX_RUNNING_LOG);
         mongoTemplate.dropCollection(LogTableName.SYSTEM_EVENT_LOG);
-        mongoTemplate.dropCollection(LogTableName.SYSTEM_RUNNING_LOG);
+        mongoTemplate.dropCollection(LogTableName.SYSTEM_OS_STATE);
+        mongoTemplate.dropCollection(LogTableName.JVM_STATE);
+        mongoTemplate.dropCollection(LogTableName.SYSTEM_NETWORK_STATE);
+
         logger.info("Clear system log finished");
     }
 
@@ -94,15 +152,16 @@ public class CronJobRunner {
      */
     interface LogTableName {
 
-        // 用户日志表
-        String USER_LOGIN_LOG = "user_login_log";
         // 系统事件表
         String SYSTEM_EVENT_LOG = "system_event_log";
         // EMQX 节点运行日志表
         String EMQX_RUNNING_LOG = "emqx_running_log";
-        // 系统所有异常日志
-        String SYSTEM_RUNNING_LOG = "system_running_log";
-
+        // 操作系统系统所有运行日志
+        String SYSTEM_OS_STATE = "system_os_state";
+        // 网络日志
+        String SYSTEM_NETWORK_STATE = "system_network_state";
+        // JVM运行日志
+        String JVM_STATE = "jvm_state";
 
     }
 
