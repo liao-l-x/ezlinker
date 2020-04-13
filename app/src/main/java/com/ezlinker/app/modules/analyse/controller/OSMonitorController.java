@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +69,7 @@ public class OSMonitorController extends XController {
         List<Double> physicalTotal = new ArrayList<>();
         List<Double> physicalUse = new ArrayList<>();
         //
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put("time", timeList);
         result.put("physicalFree", physicalFree);
         result.put("physicalTotal", physicalTotal);
@@ -94,7 +94,7 @@ public class OSMonitorController extends XController {
         List<Double> vmTotal = new ArrayList<>();
 
         //
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put("time", timeList);
         result.put("jvmUse", vmUse);
         result.put("jvmMax", vmMax);
@@ -111,7 +111,7 @@ public class OSMonitorController extends XController {
     @GetMapping("/networkRunning24h")
     public R networkRunning24h() {
         List<String> timeList = new ArrayList<>();
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         List<Double> netWorkIn = new ArrayList<>();
         List<Double> netWorkOut = new ArrayList<>();

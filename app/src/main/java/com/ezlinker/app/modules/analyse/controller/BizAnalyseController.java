@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -47,7 +47,7 @@ public class BizAnalyseController extends XController {
 
     @GetMapping("/overView")
     public R overView() {
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new LinkedHashMap<>();
         data.put("projects", iProjectService.count());
         data.put("users", iUserService.count());
         data.put("products", iProductService.count());

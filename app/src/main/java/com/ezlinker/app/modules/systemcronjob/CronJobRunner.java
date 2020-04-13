@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class CronJobRunner {
 
     public void cronOSRunningData() {
         logger.info("Start cron OS running data");
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new LinkedHashMap<>();
 
         Map<String, Object> running = OSMonitor.getOSInfo();
         data.put("physicalFree", running.get("physicalFree"));
@@ -62,7 +62,7 @@ public class CronJobRunner {
     public void cronJVMRunningData() {
         logger.info("Start cron JVM running data");
         Map<String, Object> running = OSMonitor.getJvmRunningState();
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new LinkedHashMap<>();
         data.put("jvmUse", running.get("jvmUse"));
         data.put("jvmFree", running.get("jvmFree"));
         data.put("jvmTotal", running.get("jvmTotal"));
@@ -102,15 +102,15 @@ public class CronJobRunner {
             try {
                 runningState = EMQMonitorV4.getNodeInfo(config);
                 if (runningState != null) {
-                    Map<String, Object> data = new HashMap<>();
+                    Map<String, Object> data = new LinkedHashMap<>();
                     data.put("node", config.getNodeName());
                     data.put("load1", runningState.get("load1"));
                     data.put("load5", runningState.get("load5"));
                     data.put("load15", runningState.get("load15"));
-                    data.put("processAvailable", runningState.get("processAvailable"));
-                    data.put("processUsed", runningState.get("processUsed"));
-                    data.put("memoryTotal", runningState.get("memoryTotal"));
-                    data.put("memoryUsed", runningState.get("memoryUsed"));
+                    data.put("processAvailable", runningState.get("process_available"));
+                    data.put("processUsed", runningState.get("process_used"));
+                    data.put("memoryTotal", runningState.get("memory_total"));
+                    data.put("memoryUsed", runningState.get("memory_used"));
                     data.put("createTime", LocalDateTime.now());
                     mongoTemplate.insert(data, LogTableName.EMQX_RUNNING_LOG + "_" + config.getNodeName());
                 }

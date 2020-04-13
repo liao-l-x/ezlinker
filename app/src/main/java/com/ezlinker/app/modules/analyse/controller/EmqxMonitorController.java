@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -69,7 +70,7 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
              *      "createTime":
              *  }
              */
-            HashMap<String, Object> historyRunningState = new HashMap<>();
+            HashMap<String, Object> historyRunningState = new LinkedHashMap<>();
             //
             List<Float> load1 = new ArrayList<>();
             List<Float> load5 = new ArrayList<>();
@@ -100,13 +101,13 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
             historyRunningState.put("memoryUsed", memoryUsed);
             historyRunningState.put("createTime", createTime);
             //
-            HashMap<String, Object> currentRunningState = new HashMap<>();
+            HashMap<String, Object> currentRunningState = new LinkedHashMap<>();
             JSONObject currentNodeInfo;
             try {
                 currentNodeInfo = EMQMonitorV4.getNodeInfo(config);
                 // 如果是离线 就更新为在线
                 if (currentNodeInfo != null) {
-                    historyRunningState.put("node", currentNodeInfo.getFloat("node"));
+                    currentRunningState.put("node", currentNodeInfo.getFloat("node"));
                     currentRunningState.put("load1", currentNodeInfo.getFloat("load1"));
                     currentRunningState.put("load5", currentNodeInfo.getFloat("load5"));
                     currentRunningState.put("load15", currentNodeInfo.getFloat("load15"));

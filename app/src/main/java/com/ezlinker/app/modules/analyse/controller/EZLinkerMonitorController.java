@@ -13,6 +13,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -36,9 +37,9 @@ public class EZLinkerMonitorController extends XController {
     @GetMapping("/info")
     public R info() {
 
-        Map<String, Object> info = new HashMap<>(5);
+        Map<String, Object> info = new LinkedHashMap<>(5);
 
-        Map<String, Object> memory = new HashMap<>(2);
+        Map<String, Object> memory = new LinkedHashMap<>(2);
         //转化为MB
         int MB = 1024 * 1024;
         double totalMem = (double) mem.getTotalPhysicalMemorySize() / MB;
