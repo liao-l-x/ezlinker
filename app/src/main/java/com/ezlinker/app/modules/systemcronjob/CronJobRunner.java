@@ -6,7 +6,6 @@ import com.ezlinker.app.common.utils.OSMonitor;
 import com.ezlinker.app.emqintegeration.monitor.EMQMonitorV4;
 import com.ezlinker.app.modules.systemconfig.model.EmqxConfig;
 import com.ezlinker.app.modules.systemconfig.service.IEmqxConfigService;
-import com.ezlinker.app.modules.systemlog.model.SystemLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -115,12 +114,13 @@ public class CronJobRunner {
                     mongoTemplate.insert(data, LogTableName.EMQX_RUNNING_LOG + "_" + config.getNodeName());
                 }
             } catch (BizException e) {
-                SystemLog systemLog = new SystemLog();
-                systemLog.setType(SystemLog.SystemLogType.error);
-                systemLog.setWho(CronJobRunner.class.getCanonicalName());
-                systemLog.setMessage(e.getMessage());
-                systemLog.setCreateTime(LocalDateTime.now());
-                mongoTemplate.insert(systemLog, LogTableName.SYSTEM_EVENT_LOG);
+                logger.error(e.getMessage());
+//                SystemLog systemLog = new SystemLog();
+//                systemLog.setType(SystemLog.SystemLogType.error);
+//                systemLog.setWho(CronJobRunner.class.getCanonicalName());
+//                systemLog.setMessage(e.getMessage());
+//                systemLog.setCreateTime(LocalDateTime.now());
+//                mongoTemplate.insert(systemLog, LogTableName.SYSTEM_EVENT_LOG);
             }
 
         }
