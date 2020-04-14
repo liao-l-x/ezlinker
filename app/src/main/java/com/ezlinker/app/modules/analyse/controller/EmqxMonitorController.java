@@ -7,6 +7,8 @@ import com.ezlinker.app.emqintegeration.bean.NodeInfo;
 import com.ezlinker.app.emqintegeration.monitor.EMQMonitorV4;
 import com.ezlinker.app.modules.systemconfig.model.EmqxConfig;
 import com.ezlinker.app.modules.systemconfig.service.IEmqxConfigService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -33,7 +35,9 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/monitor/emqx")
+
 public class EmqxMonitorController extends CurdController<EmqxConfig> {
+    static Logger logger = LoggerFactory.getLogger(EmqxMonitorController.class);
     @Resource
     IEmqxConfigService iEmqxConfigService;
     @Resource
@@ -63,10 +67,10 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
              *      "load1": "0.52",
              *      "load5": "0.58",
              *      "load15": "0.59"
-             *      "process_available": 2097152,
-             *      "process_used": 446,
-             *      "memory_total": 172707840,
-             *      "memory_used": 112341880,
+             *      "processAvailable": 2097152,
+             *      "processUsed": 446,
+             *      "memoryTotal": 172707840,
+             *      "memoryUsed": 112341880,
              *      "createTime":
              *  }
              */
@@ -104,10 +108,11 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
             HashMap<String, Object> currentRunningState = new LinkedHashMap<>();
             JSONObject currentNodeInfo;
             try {
+                // 这里获取到的数据是EMQ直接返回的 下划线格式
                 currentNodeInfo = EMQMonitorV4.getNodeInfo(config);
                 // 如果是离线 就更新为在线
                 if (currentNodeInfo != null) {
-                    currentRunningState.put("node", currentNodeInfo.getFloat("node"));
+                    currentRunningState.put("node", currentNodeInfo.getString("node"));
                     currentRunningState.put("load1", currentNodeInfo.getFloat("load1"));
                     currentRunningState.put("load5", currentNodeInfo.getFloat("load5"));
                     currentRunningState.put("load15", currentNodeInfo.getFloat("load15"));
@@ -120,6 +125,8 @@ public class EmqxMonitorController extends CurdController<EmqxConfig> {
                 config.setCurrentRunningState(currentRunningState);
 
             } catch (Exception e) {
+                //e.printStackTrace();
+                logger.error(e.getMessage());
                 config.setCurrentRunningState(null);
 
             }
